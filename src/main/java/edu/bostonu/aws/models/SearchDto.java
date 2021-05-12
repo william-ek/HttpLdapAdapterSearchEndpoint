@@ -4,14 +4,21 @@ package edu.bostonu.aws.models;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import edu.bostonu.aws.validation.Buid;
+import edu.bostonu.aws.validation.ValidSearchDto;
 
+@ValidSearchDto 
 public class SearchDto implements Serializable {
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;
 	
+	@Buid
+	@NotNull(message="BUID is required")    /* use a message source   */
 	private String buid;
 	
 	private String personFirstName;

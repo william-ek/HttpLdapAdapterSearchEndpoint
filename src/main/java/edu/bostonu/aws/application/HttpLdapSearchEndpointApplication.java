@@ -1,7 +1,13 @@
 package edu.bostonu.aws.application;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 
-
+import edu.bostonu.aws.models.ResponseDto;
 import edu.bostonu.aws.models.SearchDto;
-import edu.bostonu.aws.models.User;
 import edu.bostonu.aws.services.LdapService;
 
 @ComponentScan(basePackages = "edu.bostonu.aws")
@@ -38,8 +43,15 @@ public class HttpLdapSearchEndpointApplication {
 	}
 	
 	    @Bean
-	    public Function<SearchDto, List<User>> searchUsers() {
+	    public Function<SearchDto, ResponseDto> searchUsers() {
 	    	return (input) -> service.searchUsers(input);
+	    }
+	    
+	    @Bean
+	    public Validator getValidator() {
+	    	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	    	Validator validator = factory.getValidator();
+	    	return validator;
 	    }
 		
 	
